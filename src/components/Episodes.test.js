@@ -8,27 +8,24 @@ jest.mock("../api/fetchShow")
 
 test("props are getting episodes from API", ()=> {
 
-    // const {queryAllByTestId, getAllByTestId, rerender} = render(<Episodes episodes={[]}/>);
     fetchShow.mockResolvedValueOnce(data);
+    const {queryAllByTestId, getAllByTestId, rerender} = render(<Episodes episodes={[]}/>);
 
+    const episode = queryAllByTestId(/episode/i);
+    expect(episode).toHaveLength(1);
+    const episodes = getAllByTestId(/episodes/i);
+    expect(episodes).toHaveLength(4);
+    
     
 
 });
+    
+    
 
-test("From Episodes!! App fetches show data from the api and renders it", async ()=> {
 
-    // mockFetchShow.mockResolvedValueOnce(seasonUno);
-    fetchShow.mockResolvedValueOnce(data);
- 
- 
-     const {findByText, getByRole, getAllByTestId, findByTestId} = render(<App/>);
-     const selectSeason = await findByText(/Select a season/i);
-     fireEvent.click(selectSeason);
-     const season2 = await findByText(/Season 2/i)
-    // expect("Season 2").toBeVisible;
-     fireEvent.click(season2);
 
-});
+
+
 
 const data = { 
     data:  {
@@ -124,4 +121,4 @@ const data = {
         ]
     }
   }
-}
+};

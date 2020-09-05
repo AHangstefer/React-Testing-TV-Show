@@ -3,8 +3,9 @@ import App from "./App.js";
 import {render, fireEvent, findByAltText, getAllByTestId, findByText, getByRole, getAllbyTestId, waitFor, getByText, findByTestId} from "@testing-library/react";
 import {fetchShow as mockFetchShow} from "./api/fetchShow";
 import { act } from "react-dom/test-utils";
+import userEvent from "@testing-library/user-event"
 
-import Dropdown from "react-dropdown";
+//import Dropdown from "react-dropdown";
 
 jest.mock("./api/fetchShow")
 
@@ -14,11 +15,24 @@ test("App fetches show data from the api and renders it", async ()=> {
      
      
     const {findByText, getByRole, getAllByTestId, findByTestId} = render(<App/>);
-    const selectSeason = await findByText(/Select a season/i);
-    fireEvent.click(selectSeason);
-    const season2 = await findByText(/Season 2/i)
+    //const selectSeason = await findByText(/Select a season/i);
+
+    await waitFor(()=>{
+        getByText(/select a season/i);
+    });
+
+    const dropDown=getByText(/select a season/i);
+    userEvent.click(dropDown);
+    const text= getByText(/season 1/i);
+    expect(text).toBeInTheDocument();
+    userEvent.click(text);
+    getByText(/season 1, episode 1/i);
+
+
+    //fireEvent.click(selectSeason);
+    //const season2 = await findByText(/Season 2/i)
     // expect("Season 2").toBeVisible;
-    fireEvent.click(season2);
+    //fireEvent.click(season2);
     
     
 
